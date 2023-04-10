@@ -1,8 +1,19 @@
 import rclpy
 from std_msgs.msg import Float32
+from datetime import datetime
 
 
-# add your code here!
+class TemperatureLogger:
+    def __init__(self, filename):
+        self.filename = filename
+        f = open(filename, "w")
+        print("Temperature logger started at", datetime.now(), file=f)
+        f.close()
+
+    def callback(self, temperature: Float32):
+        with open(self.filename, "a") as f:
+            if (temperature.data >= 50):
+                print(f"{datetime.now()}\t{temperature.data}", file=f)
 
 
 def main(args=None):
